@@ -1,3 +1,5 @@
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,9 +9,10 @@ public class App {
         ArrayList<String> historial = new ArrayList<>();
         int opcion;
         double num1, num2, resultado;
+        String archivo = "historial.txt";
 
         do {
-            System.out.println("=== CALCULADORA AVANZADA ===");
+            System.out.println("=== CALCULADORA CON HISTORIAL EN ARCHIVO ===");
             System.out.println("1. Sumar");
             System.out.println("2. Restar");
             System.out.println("3. Multiplicar");
@@ -49,6 +52,7 @@ public class App {
                     String operacion = "√" + num1 + " = " +resultado;
                     System.out.println("Resultado: "+ resultado);
                     historial.add(operacion);
+                    guardarEnArchivo(archivo, operacion);
                 }
                 continue;
             }
@@ -96,8 +100,17 @@ public class App {
                 default:
                     System.out.println("Opción no válido");
             }
+
         } while(true);
         
         scanner.close();
+    }
+
+    private static void guardarEnArchivo(String archivo, String texto) {
+        try (FileWriter writer = new FileWriter(archivo, true)){
+            writer.write(texto + "\n");
+        } catch (IOException e) {
+            System.out.println("Error al guardar el archivo: "+ e.getMessage());
+        }
     }
 }
